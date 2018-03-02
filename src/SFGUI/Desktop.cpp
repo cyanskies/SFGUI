@@ -20,12 +20,13 @@ void Desktop::Update( float seconds ) {
 	Context::Deactivate();
 }
 
-void Desktop::HandleEvent( const sf::Event& event ) {
+bool Desktop::HandleEvent( const sf::Event& event ) {
 	// Activate context.
 	Context::Activate( m_context );
 
 	sf::Vector2f position;
 	bool check_inside( false );
+	bool handled( false );
 	Widget::Ptr last_receiver( m_last_receiver.lock() );
 
 	// If we've got a mouse event, get local mouse position and mark event for being checked against widget's allocation.
@@ -51,6 +52,8 @@ void Desktop::HandleEvent( const sf::Event& event ) {
 		}
 
 		bool is_inside( widget->GetAllocation().contains( position ) );
+		//NOTE: this might have to be moved bellow //if(check_inside & !is_inside && index)
+		handled = is_inside || handled;
 
 		// If the event is a mouse button press, check if we need to focus another widget.
 		// If there is a modal widget, skip reordering.
@@ -95,6 +98,8 @@ void Desktop::HandleEvent( const sf::Event& event ) {
 
 	// Restore previous context.
 	Context::Deactivate();
+
+	return handled;
 }
 
 void Desktop::Add( std::shared_ptr<Widget> widget ) {
