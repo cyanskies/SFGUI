@@ -18,7 +18,20 @@ set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules
 
 # Find packages.
 find_package( OpenGL REQUIRED )
-find_package( SFML 2.3 REQUIRED COMPONENTS graphics window system )
+#find_package( SFML 2.3 REQUIRED COMPONENTS graphics window system )
+
+#set the variables that findsfml would set
+set(SFML_LIBRARIES 
+	sfml-audio
+	sfml-graphics
+	sfml-main
+	sfml-network
+	sfml-system
+	sfml-window)
+
+#the value of SMFML_INCLUDE_DIR doesn't matter
+#target_link_libraries will handle that for us
+set(SFML_INCLUDE_DIR "./")
 
 # Find X11 for glX on Linux, checking for UNIX would match other UNIX systems as well
 if( "${CMAKE_SYSTEM_NAME}" MATCHES "Linux" )
