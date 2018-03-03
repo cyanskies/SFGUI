@@ -300,6 +300,9 @@ elseif( CMAKE_COMPILER_IS_GNUCXX )
 	set( CMAKE_C_FLAGS "-Wall -Wextra -Wshadow -Wconversion -Wno-long-long -pedantic ${CMAKE_C_FLAGS}" )
 endif()
 
+#make sfgui include directories availalbe
+target_include_directories(sfgui PUBLIC "${INCLUDE_PATH}")
+
 ### EXAMPLES ###
 
 if( SFGUI_BUILD_EXAMPLES )
